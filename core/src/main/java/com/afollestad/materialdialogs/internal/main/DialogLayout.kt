@@ -18,19 +18,12 @@ package com.afollestad.materialdialogs.internal.main
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
 import android.graphics.Canvas
-import android.graphics.Color.BLUE
-import android.graphics.Color.CYAN
-import android.graphics.Color.MAGENTA
-import android.graphics.Color.RED
-import android.graphics.Color.YELLOW
+import android.graphics.Color.*
 import android.graphics.Paint
 import android.graphics.Paint.Style.FILL
 import android.util.AttributeSet
-import android.view.View.MeasureSpec.AT_MOST
-import android.view.View.MeasureSpec.EXACTLY
-import android.view.View.MeasureSpec.UNSPECIFIED
-import android.view.View.MeasureSpec.getSize
-import android.view.View.MeasureSpec.makeMeasureSpec
+import android.util.Log
+import android.view.View.MeasureSpec.*
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
@@ -43,8 +36,8 @@ import com.afollestad.materialdialogs.internal.button.shouldBeVisible
 import com.afollestad.materialdialogs.internal.message.DialogContentLayout
 import com.afollestad.materialdialogs.utils.MDUtil.dimenPx
 import com.afollestad.materialdialogs.utils.MDUtil.getWidthAndHeight
+import com.afollestad.materialdialogs.utils.MDUtil.resolveBoolean
 import com.afollestad.materialdialogs.utils.dp
-import com.afollestad.materialdialogs.utils.isRtl
 import com.afollestad.materialdialogs.utils.isVisible
 
 /**
@@ -54,8 +47,8 @@ import com.afollestad.materialdialogs.utils.isVisible
  * @author Aidan Follestad (afollestad)
  */
 class DialogLayout(
-  context: Context,
-  attrs: AttributeSet?
+    context: Context,
+    val attrs: AttributeSet?
 ) : FrameLayout(context, attrs) {
 
   var maxHeight: Int = 0
@@ -74,6 +67,7 @@ class DialogLayout(
   lateinit var contentLayout: DialogContentLayout
   var buttonsLayout: DialogActionButtonLayout? = null
   var layoutMode: LayoutMode = WRAP_CONTENT
+  private var isRtl: Boolean = false
 
   private var isButtonsLayoutAChild: Boolean = true
   private var windowHeight: Int = -1
@@ -88,6 +82,12 @@ class DialogLayout(
   fun attachDialog(dialog: MaterialDialog) {
     titleLayout.dialog = dialog
     buttonsLayout?.dialog = dialog
+    isRtl = resolveBoolean(dialog.context, attr = R.attr.md_is_rtl, attrs = attrs)
+    Log.i("majid", isRtl.toString())
+
+    titleLayout.isRtl = isRtl
+    contentLayout.isRtl = isRtl
+    buttonsLayout?.isRtl = isRtl
   }
 
   fun attachButtonsLayout(buttonsLayout: DialogActionButtonLayout) {
@@ -99,8 +99,8 @@ class DialogLayout(
    * Shows or hides the top and bottom dividers, which separate the title, content, and buttons.
    */
   fun invalidateDividers(
-    showTop: Boolean,
-    showBottom: Boolean
+      showTop: Boolean,
+      showBottom: Boolean
   ) {
     titleLayout.drawDivider = showTop
     buttonsLayout?.drawDivider = showBottom
@@ -114,8 +114,8 @@ class DialogLayout(
   }
 
   override fun onMeasure(
-    widthMeasureSpec: Int,
-    heightMeasureSpec: Int
+      widthMeasureSpec: Int,
+      heightMeasureSpec: Int
   ) {
     val specWidth = getSize(widthMeasureSpec)
     var specHeight = getSize(heightMeasureSpec)
@@ -135,7 +135,7 @@ class DialogLayout(
     }
 
     val titleAndButtonsHeight =
-      titleLayout.measuredHeight + (buttonsLayout?.measuredHeight ?: 0)
+        titleLayout.measuredHeight + (buttonsLayout?.measuredHeight ?: 0)
     val remainingHeight = specHeight - titleAndButtonsHeight
     contentLayout.measure(
         makeMeasureSpec(specWidth, EXACTLY),
@@ -153,11 +153,11 @@ class DialogLayout(
   }
 
   override fun onLayout(
-    changed: Boolean,
-    left: Int,
-    top: Int,
-    right: Int,
-    bottom: Int
+      changed: Boolean,
+      left: Int,
+      top: Int,
+      right: Int,
+      bottom: Int
   ) {
     val titleLeft = 0
     val titleTop = 0
@@ -173,7 +173,7 @@ class DialogLayout(
     val buttonsTop: Int
     if (isButtonsLayoutAChild) {
       buttonsTop =
-        measuredHeight - (buttonsLayout?.measuredHeight ?: 0)
+          measuredHeight - (buttonsLayout?.measuredHeight ?: 0)
       if (buttonsLayout.shouldBeVisible()) {
         val buttonsLeft = 0
         val buttonsRight = measuredWidth
@@ -225,7 +225,7 @@ class DialogLayout(
     }
 
     // Cyan line on the end edge of the buttons
-    val buttonsRight = if (isRtl()) {
+    val buttonsRight = if (isRtl) {
       dp(8)
     } else {
       measuredWidth.toFloat() - dp(8)
@@ -286,8 +286,8 @@ class DialogLayout(
   }
 
   private fun paint(
-    color: Int,
-    alpha: Float = 1f
+      color: Int,
+      alpha: Float = 1f
   ): Paint {
     if (debugPaint == null) {
       debugPaint = Paint().apply {
@@ -303,31 +303,31 @@ class DialogLayout(
   }
 
   private fun Canvas.box(
-    @ColorInt color: Int,
-    alpha: Float = 1f,
-    left: Float,
-    right: Float,
-    top: Float,
-    bottom: Float
+      @ColorInt color: Int,
+      alpha: Float = 1f,
+      left: Float,
+      right: Float,
+      top: Float,
+      bottom: Float
   ) = drawRect(left, top, right, bottom, paint(color, alpha))
 
   private fun Canvas.line(
-    @ColorInt color: Int,
-    left: Float = 0f,
-    right: Float = left,
-    top: Float = 0f,
-    bottom: Float = top
+      @ColorInt color: Int,
+      left: Float = 0f,
+      right: Float = left,
+      top: Float = 0f,
+      bottom: Float = top
   ) = drawLine(left, top, right, bottom, paint(color))
 
   private fun Canvas.verticalLine(
-    @ColorInt color: Int,
-    start: Float,
-    width: Float = start
+      @ColorInt color: Int,
+      start: Float,
+      width: Float = start
   ) = line(color, left = start, right = width, top = 0f, bottom = measuredHeight.toFloat())
 
   private fun Canvas.horizontalLine(
-    @ColorInt color: Int,
-    start: Float = measuredHeight.toFloat(),
-    height: Float = start
+      @ColorInt color: Int,
+      start: Float = measuredHeight.toFloat(),
+      height: Float = start
   ) = line(color, left = 0f, right = measuredWidth.toFloat(), top = start, bottom = height)
 }

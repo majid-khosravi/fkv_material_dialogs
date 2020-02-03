@@ -122,7 +122,7 @@ class DialogTitleLayout(
     var titleLeft: Int
     var titleRight: Int
 
-    if (isRtl()) {
+    if (isRtl) {
       titleRight = measuredWidth - frameMarginHorizontal
       titleLeft = titleRight - titleView.measuredWidth
     } else {
@@ -138,7 +138,7 @@ class DialogTitleLayout(
       val iconLeft: Int
       val iconRight: Int
 
-      if (isRtl()) {
+      if (isRtl) {
         iconRight = titleRight
         iconLeft = iconRight - iconView.measuredWidth
         titleRight = iconLeft - iconMargin

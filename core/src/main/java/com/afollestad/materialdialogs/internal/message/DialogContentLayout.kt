@@ -19,10 +19,7 @@ import android.content.Context
 import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
-import android.view.View.MeasureSpec.AT_MOST
-import android.view.View.MeasureSpec.EXACTLY
-import android.view.View.MeasureSpec.getSize
-import android.view.View.MeasureSpec.makeMeasureSpec
+import android.view.View.MeasureSpec.*
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
@@ -30,6 +27,7 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.RestrictTo
 import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
 import androidx.annotation.StringRes
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -70,6 +68,13 @@ class DialogContentLayout(
   var scrollView: DialogScrollView? = null
   var recyclerView: DialogRecyclerView? = null
   var customView: View? = null
+  var isRtl: Boolean = false
+    set(value) {
+      field = value
+      ViewCompat.setLayoutDirection(this,
+          if (value) ViewCompat.LAYOUT_DIRECTION_RTL else ViewCompat.LAYOUT_DIRECTION_LTR)
+    }
+
 
   fun setMessage(
     dialog: MaterialDialog,

@@ -19,12 +19,14 @@ import android.R.attr
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
+import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.Html
 import android.text.TextWatcher
+import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -75,6 +77,19 @@ object MDUtil {
       return Html.fromHtml(text.toString())
     }
     return text
+  }
+
+  @RestrictTo(LIBRARY_GROUP)
+  fun resolveBoolean(
+      context: Context,
+      @AttrRes attr: Int,
+      attrs: AttributeSet?): Boolean {
+    val a: TypedArray = context.obtainStyledAttributes(attrs, intArrayOf(attr))
+    try {
+      return a.getBoolean(0, false)
+    } finally {
+      a.recycle()
+    }
   }
 
   @RestrictTo(LIBRARY_GROUP) fun resolveDrawable(

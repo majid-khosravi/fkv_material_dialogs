@@ -26,6 +26,7 @@
     <item name="md_font_body">@font/raleway_medium</item>
     <item name="md_font_button">@font/raleway_semibold</item>
     <item name="md_ripple_color">@color/primary_custom_translucent</item>
+    <item name="md_is_rtl">true</item>
 
     <item name="android:windowBackground">@android:color/black</item>
     <item name="sample_button_color">#424242</item>

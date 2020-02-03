@@ -37,6 +37,7 @@ abstract class BaseSubLayout internal constructor(
   private val dividerPaint = Paint()
   protected val dividerHeight = dimenPx(R.dimen.md_divider_height)
   lateinit var dialog: MaterialDialog
+  var isRtl: Boolean = false
 
   var drawDivider: Boolean = false
     set(value) {
