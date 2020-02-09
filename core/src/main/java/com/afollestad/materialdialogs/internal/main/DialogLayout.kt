@@ -83,7 +83,6 @@ class DialogLayout(
     titleLayout.dialog = dialog
     buttonsLayout?.dialog = dialog
     isRtl = resolveBoolean(dialog.context, attr = R.attr.md_is_rtl, attrs = attrs)
-    Log.i("majid", isRtl.toString())
 
     titleLayout.isRtl = isRtl
     contentLayout.isRtl = isRtl
