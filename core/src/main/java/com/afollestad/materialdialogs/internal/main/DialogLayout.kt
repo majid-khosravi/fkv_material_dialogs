@@ -27,6 +27,7 @@ import android.view.View.MeasureSpec.*
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
+import androidx.core.view.ViewCompat
 import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.LayoutMode.WRAP_CONTENT
 import com.afollestad.materialdialogs.MaterialDialog
@@ -47,8 +48,8 @@ import com.afollestad.materialdialogs.utils.isVisible
  * @author Aidan Follestad (afollestad)
  */
 class DialogLayout(
-    context: Context,
-    val attrs: AttributeSet?
+  context: Context,
+  val attrs: AttributeSet?
 ) : FrameLayout(context, attrs) {
 
   var maxHeight: Int = 0
@@ -85,8 +86,9 @@ class DialogLayout(
     isRtl = resolveBoolean(dialog.context, attr = R.attr.md_is_rtl, attrs = attrs)
 
     titleLayout.isRtl = isRtl
-    contentLayout.isRtl = isRtl
     buttonsLayout?.isRtl = isRtl
+    ViewCompat.setLayoutDirection(this,
+        if (isRtl) ViewCompat.LAYOUT_DIRECTION_RTL else ViewCompat.LAYOUT_DIRECTION_LTR)
   }
 
   fun attachButtonsLayout(buttonsLayout: DialogActionButtonLayout) {
@@ -98,8 +100,8 @@ class DialogLayout(
    * Shows or hides the top and bottom dividers, which separate the title, content, and buttons.
    */
   fun invalidateDividers(
-      showTop: Boolean,
-      showBottom: Boolean
+    showTop: Boolean,
+    showBottom: Boolean
   ) {
     titleLayout.drawDivider = showTop
     buttonsLayout?.drawDivider = showBottom
@@ -113,8 +115,8 @@ class DialogLayout(
   }
 
   override fun onMeasure(
-      widthMeasureSpec: Int,
-      heightMeasureSpec: Int
+    widthMeasureSpec: Int,
+    heightMeasureSpec: Int
   ) {
     val specWidth = getSize(widthMeasureSpec)
     var specHeight = getSize(heightMeasureSpec)
@@ -134,7 +136,7 @@ class DialogLayout(
     }
 
     val titleAndButtonsHeight =
-        titleLayout.measuredHeight + (buttonsLayout?.measuredHeight ?: 0)
+      titleLayout.measuredHeight + (buttonsLayout?.measuredHeight ?: 0)
     val remainingHeight = specHeight - titleAndButtonsHeight
     contentLayout.measure(
         makeMeasureSpec(specWidth, EXACTLY),
@@ -152,11 +154,11 @@ class DialogLayout(
   }
 
   override fun onLayout(
-      changed: Boolean,
-      left: Int,
-      top: Int,
-      right: Int,
-      bottom: Int
+    changed: Boolean,
+    left: Int,
+    top: Int,
+    right: Int,
+    bottom: Int
   ) {
     val titleLeft = 0
     val titleTop = 0
@@ -172,7 +174,7 @@ class DialogLayout(
     val buttonsTop: Int
     if (isButtonsLayoutAChild) {
       buttonsTop =
-          measuredHeight - (buttonsLayout?.measuredHeight ?: 0)
+        measuredHeight - (buttonsLayout?.measuredHeight ?: 0)
       if (buttonsLayout.shouldBeVisible()) {
         val buttonsLeft = 0
         val buttonsRight = measuredWidth
@@ -285,8 +287,8 @@ class DialogLayout(
   }
 
   private fun paint(
-      color: Int,
-      alpha: Float = 1f
+    color: Int,
+    alpha: Float = 1f
   ): Paint {
     if (debugPaint == null) {
       debugPaint = Paint().apply {
@@ -302,31 +304,31 @@ class DialogLayout(
   }
 
   private fun Canvas.box(
-      @ColorInt color: Int,
-      alpha: Float = 1f,
-      left: Float,
-      right: Float,
-      top: Float,
-      bottom: Float
+    @ColorInt color: Int,
+    alpha: Float = 1f,
+    left: Float,
+    right: Float,
+    top: Float,
+    bottom: Float
   ) = drawRect(left, top, right, bottom, paint(color, alpha))
 
   private fun Canvas.line(
-      @ColorInt color: Int,
-      left: Float = 0f,
-      right: Float = left,
-      top: Float = 0f,
-      bottom: Float = top
+    @ColorInt color: Int,
+    left: Float = 0f,
+    right: Float = left,
+    top: Float = 0f,
+    bottom: Float = top
   ) = drawLine(left, top, right, bottom, paint(color))
 
   private fun Canvas.verticalLine(
-      @ColorInt color: Int,
-      start: Float,
-      width: Float = start
+    @ColorInt color: Int,
+    start: Float,
+    width: Float = start
   ) = line(color, left = start, right = width, top = 0f, bottom = measuredHeight.toFloat())
 
   private fun Canvas.horizontalLine(
-      @ColorInt color: Int,
-      start: Float = measuredHeight.toFloat(),
-      height: Float = start
+    @ColorInt color: Int,
+    start: Float = measuredHeight.toFloat(),
+    height: Float = start
   ) = line(color, left = 0f, right = measuredWidth.toFloat(), top = start, bottom = height)
 }
