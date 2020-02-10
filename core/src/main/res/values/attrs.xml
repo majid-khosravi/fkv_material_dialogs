@@ -4,8 +4,8 @@
   <attr format="reference" name="md_item_selector"/>
   <attr format="reference" name="md_button_selector"/>
 
-  <attr format="boolean" name="md_is_rtl"/>
-<!--  <attr format="reference" name="android:layoutDirection" />-->
+  <declare-styleable name="DialogLayout">
+    <attr name="android:layoutDirection" format="reference" />
+  </declare-styleable>
 
-<!--  <attr name="android:layoutDirection" tools:ignore="MissingDefaultResource" />-->
 </resources>

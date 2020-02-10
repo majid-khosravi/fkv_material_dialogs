@@ -45,8 +45,11 @@ import androidx.annotation.RestrictTo
 import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.text.TextUtilsCompat
+import androidx.core.view.ViewCompat
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.R
+import java.util.*
 
 @RestrictTo(LIBRARY_GROUP)
 object MDUtil {
@@ -80,13 +83,18 @@ object MDUtil {
   }
 
   @RestrictTo(LIBRARY_GROUP)
-  fun resolveBoolean(
+  fun resolveLayoutDirection(
       context: Context,
-      @AttrRes attr: Int,
-      attrs: AttributeSet?): Boolean {
-    val a: TypedArray = context.obtainStyledAttributes(attrs, intArrayOf(attr))
+      attrs: AttributeSet?,
+      attrArray: IntArray): Boolean {
+    val a: TypedArray = context.obtainStyledAttributes(attrs, attrArray)
     try {
-      return a.getBoolean(0, false)
+      return when (a.getInt(0, 0)) {
+        ViewCompat.LAYOUT_DIRECTION_LTR -> false
+        ViewCompat.LAYOUT_DIRECTION_RTL -> true
+        else ->  TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) ==
+            ViewCompat.LAYOUT_DIRECTION_RTL
+      }
     } finally {
       a.recycle()
     }

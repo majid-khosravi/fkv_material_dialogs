@@ -22,12 +22,10 @@ import android.graphics.Color.*
 import android.graphics.Paint
 import android.graphics.Paint.Style.FILL
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View.MeasureSpec.*
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
-import androidx.core.view.ViewCompat
 import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.LayoutMode.WRAP_CONTENT
 import com.afollestad.materialdialogs.MaterialDialog
@@ -37,7 +35,7 @@ import com.afollestad.materialdialogs.internal.button.shouldBeVisible
 import com.afollestad.materialdialogs.internal.message.DialogContentLayout
 import com.afollestad.materialdialogs.utils.MDUtil.dimenPx
 import com.afollestad.materialdialogs.utils.MDUtil.getWidthAndHeight
-import com.afollestad.materialdialogs.utils.MDUtil.resolveBoolean
+import com.afollestad.materialdialogs.utils.MDUtil.resolveLayoutDirection
 import com.afollestad.materialdialogs.utils.dp
 import com.afollestad.materialdialogs.utils.isVisible
 
@@ -83,12 +81,10 @@ class DialogLayout(
   fun attachDialog(dialog: MaterialDialog) {
     titleLayout.dialog = dialog
     buttonsLayout?.dialog = dialog
-    isRtl = resolveBoolean(dialog.context, attr = R.attr.md_is_rtl, attrs = attrs)
 
+    isRtl = resolveLayoutDirection(dialog.context, attrs = attrs, attrArray =  R.styleable.DialogLayout)
     titleLayout.isRtl = isRtl
     buttonsLayout?.isRtl = isRtl
-    ViewCompat.setLayoutDirection(this,
-        if (isRtl) ViewCompat.LAYOUT_DIRECTION_RTL else ViewCompat.LAYOUT_DIRECTION_LTR)
   }
 
   fun attachButtonsLayout(buttonsLayout: DialogActionButtonLayout) {
