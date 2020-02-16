@@ -15,4 +15,7 @@
     <enum name="upper" value="1"/>
     <enum name="literal" value="2"/>
   </attr>
+  <declare-styleable name="DialogLayout">
+    <attr name="android:layoutDirection" format="reference" />
+  </declare-styleable>
 </resources>
