@@ -9,7 +9,7 @@
   <string name="choose">Choose</string>
 
   <string name="shareLocationPrompt">This app wants to access your location.</string>
-  <string name="useGoogleLocationServices">Use Google\'s Location Services?</string>
+  <string name="useGoogleLocationServices">سلام دنیا...</string>
   <string name="useGoogleLocationServicesPrompt">Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</string>
   <string name="htmlContent"><![CDATA[
     <b>Material Dialogs</b> is a library designed and developed by

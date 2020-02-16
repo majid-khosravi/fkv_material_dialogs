@@ -19,10 +19,7 @@ import android.content.Context
 import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
-import android.view.View.MeasureSpec.AT_MOST
-import android.view.View.MeasureSpec.EXACTLY
-import android.view.View.MeasureSpec.getSize
-import android.view.View.MeasureSpec.makeMeasureSpec
+import android.view.View.MeasureSpec.*
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView

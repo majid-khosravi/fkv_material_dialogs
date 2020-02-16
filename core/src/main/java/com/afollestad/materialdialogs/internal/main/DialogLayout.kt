@@ -18,19 +18,11 @@ package com.afollestad.materialdialogs.internal.main
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
 import android.graphics.Canvas
-import android.graphics.Color.BLUE
-import android.graphics.Color.CYAN
-import android.graphics.Color.MAGENTA
-import android.graphics.Color.RED
-import android.graphics.Color.YELLOW
+import android.graphics.Color.*
 import android.graphics.Paint
 import android.graphics.Paint.Style.FILL
 import android.util.AttributeSet
-import android.view.View.MeasureSpec.AT_MOST
-import android.view.View.MeasureSpec.EXACTLY
-import android.view.View.MeasureSpec.UNSPECIFIED
-import android.view.View.MeasureSpec.getSize
-import android.view.View.MeasureSpec.makeMeasureSpec
+import android.view.View.MeasureSpec.*
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
@@ -43,8 +35,8 @@ import com.afollestad.materialdialogs.internal.button.shouldBeVisible
 import com.afollestad.materialdialogs.internal.message.DialogContentLayout
 import com.afollestad.materialdialogs.utils.MDUtil.dimenPx
 import com.afollestad.materialdialogs.utils.MDUtil.getWidthAndHeight
+import com.afollestad.materialdialogs.utils.MDUtil.resolveLayoutDirection
 import com.afollestad.materialdialogs.utils.dp
-import com.afollestad.materialdialogs.utils.isRtl
 import com.afollestad.materialdialogs.utils.isVisible
 
 /**
@@ -55,7 +47,7 @@ import com.afollestad.materialdialogs.utils.isVisible
  */
 class DialogLayout(
   context: Context,
-  attrs: AttributeSet?
+  val attrs: AttributeSet?
 ) : FrameLayout(context, attrs) {
 
   var maxHeight: Int = 0
@@ -74,6 +66,7 @@ class DialogLayout(
   lateinit var contentLayout: DialogContentLayout
   var buttonsLayout: DialogActionButtonLayout? = null
   var layoutMode: LayoutMode = WRAP_CONTENT
+  private var isRtl: Boolean = false
 
   private var isButtonsLayoutAChild: Boolean = true
   private var windowHeight: Int = -1
@@ -88,6 +81,10 @@ class DialogLayout(
   fun attachDialog(dialog: MaterialDialog) {
     titleLayout.dialog = dialog
     buttonsLayout?.dialog = dialog
+
+    isRtl = resolveLayoutDirection(dialog.context, attrs = attrs, attrArray =  R.styleable.DialogLayout)
+    titleLayout.isRtl = isRtl
+    buttonsLayout?.isRtl = isRtl
   }
 
   fun attachButtonsLayout(buttonsLayout: DialogActionButtonLayout) {
@@ -225,7 +222,7 @@ class DialogLayout(
     }
 
     // Cyan line on the end edge of the buttons
-    val buttonsRight = if (isRtl()) {
+    val buttonsRight = if (isRtl) {
       dp(8)
     } else {
       measuredWidth.toFloat() - dp(8)

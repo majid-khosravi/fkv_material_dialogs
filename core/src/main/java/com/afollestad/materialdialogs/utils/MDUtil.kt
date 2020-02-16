@@ -19,12 +19,14 @@ import android.R.attr
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
+import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.Html
 import android.text.TextWatcher
+import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,8 +45,11 @@ import androidx.annotation.RestrictTo
 import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.text.TextUtilsCompat
+import androidx.core.view.ViewCompat
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.R
+import java.util.*
 
 @RestrictTo(LIBRARY_GROUP)
 object MDUtil {
@@ -75,6 +80,24 @@ object MDUtil {
       return Html.fromHtml(text.toString())
     }
     return text
+  }
+
+  @RestrictTo(LIBRARY_GROUP)
+  fun resolveLayoutDirection(
+      context: Context,
+      attrs: AttributeSet?,
+      attrArray: IntArray): Boolean {
+    val a: TypedArray = context.obtainStyledAttributes(attrs, attrArray)
+    try {
+      return when (a.getInt(0, 0)) {
+        ViewCompat.LAYOUT_DIRECTION_LTR -> false
+        ViewCompat.LAYOUT_DIRECTION_RTL -> true
+        else ->  TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) ==
+            ViewCompat.LAYOUT_DIRECTION_RTL
+      }
+    } finally {
+      a.recycle()
+    }
   }
 
   @RestrictTo(LIBRARY_GROUP) fun resolveDrawable(

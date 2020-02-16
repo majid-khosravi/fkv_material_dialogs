@@ -30,7 +30,6 @@ import com.afollestad.materialdialogs.R
 import com.afollestad.materialdialogs.WhichButton
 import com.afollestad.materialdialogs.internal.main.BaseSubLayout
 import com.afollestad.materialdialogs.utils.MDUtil.dimenPx
-import com.afollestad.materialdialogs.utils.isRtl
 import com.afollestad.materialdialogs.utils.isVisible
 
 /**
@@ -172,7 +171,7 @@ class DialogActionButtonLayout(
       val promptRight: Int
       val promptBottom: Int
 
-      if (isRtl()) {
+      if (isRtl) {
         promptRight = measuredWidth - checkBoxPromptMarginHorizontal
         promptTop = checkBoxPromptMarginVertical
         promptLeft = promptRight - checkBoxPrompt.measuredWidth
@@ -205,7 +204,7 @@ class DialogActionButtonLayout(
       val topY = measuredHeight - buttonFrameSpecHeight
       val bottomY = measuredHeight
 
-      if (isRtl()) {
+      if (isRtl) {
         if (actionButtons[INDEX_NEUTRAL].isVisible()) {
           val btn = actionButtons[INDEX_NEUTRAL]
           val rightX = measuredWidth - buttonFramePaddingNeutral
