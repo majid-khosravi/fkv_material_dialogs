@@ -155,7 +155,8 @@ class MaterialDialog(
         textRes = res,
         text = text,
         typeface = this.titleFont,
-        textColor = R.attr.md_color_title
+        textColor = R.attr.md_color_title,
+        textSize = R.attr.md_size_title
     )
     return this
   }

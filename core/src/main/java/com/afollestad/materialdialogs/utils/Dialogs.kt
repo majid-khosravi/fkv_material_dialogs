@@ -31,6 +31,7 @@ import com.afollestad.materialdialogs.callbacks.invokeAll
 import com.afollestad.materialdialogs.checkbox.getCheckBoxPrompt
 import com.afollestad.materialdialogs.customview.CUSTOM_VIEW_NO_VERTICAL_PADDING
 import com.afollestad.materialdialogs.utils.MDUtil.maybeSetTextColor
+import com.afollestad.materialdialogs.utils.MDUtil.maybeSetTextSize
 import com.afollestad.materialdialogs.utils.MDUtil.resolveDrawable
 import com.afollestad.materialdialogs.utils.MDUtil.resolveString
 
@@ -82,7 +83,8 @@ internal fun MaterialDialog.populateText(
   text: CharSequence? = null,
   @StringRes fallback: Int = 0,
   typeface: Typeface?,
-  textColor: Int? = null
+  textColor: Int? = null,
+  textSize: Int? = null
 ) {
   val value = text ?: resolveString(this, textRes, fallback)
   if (value != null) {
@@ -93,6 +95,7 @@ internal fun MaterialDialog.populateText(
       textView.typeface = typeface
     }
     textView.maybeSetTextColor(windowContext, textColor)
+    textView.maybeSetTextSize(windowContext,textSize)
   } else {
     textView.visibility = View.GONE
   }

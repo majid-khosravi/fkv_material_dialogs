@@ -244,6 +244,16 @@ object MDUtil {
     }
   }
 
+  @RestrictTo(LIBRARY_GROUP)
+  fun TextView?.maybeSetTextSize(
+      context: Context,
+      @AttrRes attrRes: Int?
+  ) {
+    if (this == null || (attrRes == null)) return
+    val size = resolveDimen(context, attr = attrRes)
+    if(size != 0f) this.textSize = size
+  }
+
   @RestrictTo(LIBRARY_GROUP) inline fun Int?.ifNotZero(block: (value: Int) -> Unit) {
     if (this != null && this != 0) {
       block(this)
