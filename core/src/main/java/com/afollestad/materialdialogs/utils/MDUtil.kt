@@ -27,23 +27,12 @@ import android.text.Editable
 import android.text.Html
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewTreeObserver
-import android.view.WindowManager
+import android.util.Log
+import android.view.*
 import android.widget.EditText
 import android.widget.TextView
-import androidx.annotation.ArrayRes
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
-import androidx.annotation.DimenRes
-import androidx.annotation.DrawableRes
-import androidx.annotation.LayoutRes
-import androidx.annotation.RestrictTo
+import androidx.annotation.*
 import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
-import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.text.TextUtilsCompat
 import androidx.core.view.ViewCompat
@@ -205,6 +194,11 @@ object MDUtil {
     return context.resources.getDimensionPixelSize(res)
   }
 
+  @RestrictTo(LIBRARY_GROUP)
+  fun <T : View> T.dimenDp(@DimenRes res: Int): Float {
+    return context.resources.getDimension(res) / context.resources.displayMetrics.density
+  }
+
   @RestrictTo(LIBRARY_GROUP) fun Context.isLandscape() =
     resources.configuration.orientation == ORIENTATION_LANDSCAPE
 
@@ -247,11 +241,17 @@ object MDUtil {
   @RestrictTo(LIBRARY_GROUP)
   fun TextView?.maybeSetTextSize(
       context: Context,
-      @AttrRes attrRes: Int?
+      @AttrRes attrRes: Int?,
+      @DimenRes dimenRes: Int?
   ) {
-    if (this == null || (attrRes == null)) return
-    val size = resolveDimen(context, attr = attrRes)
-    if(size != 0f) this.textSize = size
+    if (this == null || (attrRes == null && dimenRes == null)) return
+    val size: Float =
+        when {
+          dimenRes != null -> this.dimenDp(dimenRes)
+          attrRes != null -> resolveDimen(context, attr = attrRes) / this.resources.displayMetrics.density
+          else -> return
+        }
+    if (size != 0F) this.textSize = size
   }
 
   @RestrictTo(LIBRARY_GROUP) inline fun Int?.ifNotZero(block: (value: Int) -> Unit) {

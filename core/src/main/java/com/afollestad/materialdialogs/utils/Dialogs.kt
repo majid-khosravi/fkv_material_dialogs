@@ -84,7 +84,8 @@ internal fun MaterialDialog.populateText(
   @StringRes fallback: Int = 0,
   typeface: Typeface?,
   textColor: Int? = null,
-  textSize: Int? = null
+  textSize: Int? = null,
+  textSizeRes : Int? = null
 ) {
   val value = text ?: resolveString(this, textRes, fallback)
   if (value != null) {
@@ -95,7 +96,7 @@ internal fun MaterialDialog.populateText(
       textView.typeface = typeface
     }
     textView.maybeSetTextColor(windowContext, textColor)
-    textView.maybeSetTextSize(windowContext,textSize)
+    textView.maybeSetTextSize(windowContext, textSize, textSizeRes)
   } else {
     textView.visibility = View.GONE
   }

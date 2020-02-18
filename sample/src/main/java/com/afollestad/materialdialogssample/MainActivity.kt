@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity() {
 
     R.id.basic_titled_buttons.onClickDebounced {
       MaterialDialog(this).show {
-        title(R.string.useGoogleLocationServices)
+        title(R.string.useGoogleLocationServices, textSizeRes = R.dimen.headerMarginStart)
         message(R.string.useGoogleLocationServicesPrompt)
         positiveButton(R.string.agree)
         negativeButton(R.string.disagree)

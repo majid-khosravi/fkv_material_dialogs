@@ -147,7 +147,8 @@ class MaterialDialog(
    */
   fun title(
     @StringRes res: Int? = null,
-    text: String? = null
+    text: String? = null,
+    @DimenRes textSizeRes: Int? = null
   ): MaterialDialog {
     assertOneSet("title", text, res)
     populateText(
@@ -156,7 +157,8 @@ class MaterialDialog(
         text = text,
         typeface = this.titleFont,
         textColor = R.attr.md_color_title,
-        textSize = R.attr.md_size_title
+        textSize = R.attr.md_size_title,
+        textSizeRes = textSizeRes
     )
     return this
   }

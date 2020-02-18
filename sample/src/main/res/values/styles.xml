@@ -31,7 +31,7 @@
     <item name="sample_button_color">#424242</item>
     <item name="md_background_color">#212121</item>
     <item name="android:layoutDirection">rtl</item>
-    <item name="md_size_title">16sp</item>
+    <item name="md_size_title">18dp</item>
   </style>
 
   <style name="SampleHeader" tools:ignore="NewApi">
