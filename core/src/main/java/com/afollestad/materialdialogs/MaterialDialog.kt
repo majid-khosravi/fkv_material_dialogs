@@ -26,11 +26,7 @@ import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import android.util.TypedValue.COMPLEX_UNIT_DIP
 import android.view.LayoutInflater
-import androidx.annotation.CheckResult
-import androidx.annotation.DimenRes
-import androidx.annotation.DrawableRes
-import androidx.annotation.Px
-import androidx.annotation.StringRes
+import androidx.annotation.*
 import com.afollestad.materialdialogs.WhichButton.NEGATIVE
 import com.afollestad.materialdialogs.WhichButton.NEUTRAL
 import com.afollestad.materialdialogs.WhichButton.POSITIVE
@@ -148,6 +144,7 @@ class MaterialDialog(
   fun title(
     @StringRes res: Int? = null,
     text: String? = null,
+    @ColorRes textColorRes : Int? = null,
     @DimenRes textSizeRes: Int? = null
   ): MaterialDialog {
     assertOneSet("title", text, res)
@@ -157,6 +154,7 @@ class MaterialDialog(
         text = text,
         typeface = this.titleFont,
         textColor = R.attr.md_color_title,
+        textColorRes = textColorRes,
         textSize = R.attr.md_size_title,
         textSizeRes = textSizeRes
     )

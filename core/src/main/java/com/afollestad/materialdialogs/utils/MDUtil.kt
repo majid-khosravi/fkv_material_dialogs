@@ -27,7 +27,6 @@ import android.text.Editable
 import android.text.Html
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.TextView
@@ -225,11 +224,14 @@ object MDUtil {
   @RestrictTo(LIBRARY_GROUP) fun TextView?.maybeSetTextColor(
     context: Context,
     @AttrRes attrRes: Int?,
+    @ColorRes colorRes: Int? = null,
     @AttrRes hintAttrRes: Int? = null
   ) {
-    if (this == null || (attrRes == null && hintAttrRes == null)) return
-    if (attrRes != null) {
-      resolveColor(context, attr = attrRes)
+    if (this == null || (attrRes == null && hintAttrRes == null && colorRes == null)) return
+    when {
+      colorRes != null -> resolveColor(context, res = colorRes)
+          .ifNotZero(this::setTextColor)
+      attrRes != null -> resolveColor(context, attr = attrRes)
           .ifNotZero(this::setTextColor)
     }
     if (hintAttrRes != null) {
