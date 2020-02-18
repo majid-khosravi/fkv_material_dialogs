@@ -23,6 +23,7 @@ import android.view.View.MeasureSpec.*
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.RestrictTo
 import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
@@ -72,6 +73,7 @@ class DialogContentLayout(
     dialog: MaterialDialog,
     @StringRes res: Int?,
     text: CharSequence?,
+    @ColorRes textColorRes : Int? = null,
     typeface: Typeface?,
     applySettings: (DialogMessageSettings.() -> Unit)?
   ) {
@@ -87,7 +89,7 @@ class DialogContentLayout(
 
     messageTextView?.run {
       typeface?.let { this.typeface = it }
-      maybeSetTextColor(dialog.windowContext, R.attr.md_color_content)
+      maybeSetTextColor(dialog.windowContext, attrRes = R.attr.md_color_content, colorRes = textColorRes)
       messageSettings.setText(res, text)
     }
   }
