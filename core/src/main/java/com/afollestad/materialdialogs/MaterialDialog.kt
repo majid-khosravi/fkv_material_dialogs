@@ -26,11 +26,7 @@ import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import android.util.TypedValue.COMPLEX_UNIT_DIP
 import android.view.LayoutInflater
-import androidx.annotation.CheckResult
-import androidx.annotation.DimenRes
-import androidx.annotation.DrawableRes
-import androidx.annotation.Px
-import androidx.annotation.StringRes
+import androidx.annotation.*
 import com.afollestad.materialdialogs.WhichButton.NEGATIVE
 import com.afollestad.materialdialogs.WhichButton.NEUTRAL
 import com.afollestad.materialdialogs.WhichButton.POSITIVE
@@ -146,7 +142,9 @@ class MaterialDialog(
    */
   fun title(
     @StringRes res: Int? = null,
-    text: String? = null
+    text: String? = null,
+    @ColorRes textColorRes : Int? = null,
+    @DimenRes textSizeRes: Int? = null
   ): MaterialDialog = apply {
     assertOneSet("title", text, res)
     populateText(
@@ -154,7 +152,10 @@ class MaterialDialog(
         textRes = res,
         text = text,
         typeface = this.titleFont,
-        textColor = R.attr.md_color_title
+        textColor = R.attr.md_color_title,
+        textColorRes = textColorRes,
+        textSize = R.attr.md_size_title,
+        textSizeRes = textSizeRes
     )
   }
 
@@ -167,6 +168,8 @@ class MaterialDialog(
   fun message(
     @StringRes res: Int? = null,
     text: CharSequence? = null,
+    @ColorRes textColorRes : Int? = null,
+    @DimenRes textSizeRes: Int? = null,
     applySettings: (DialogMessageSettings.() -> Unit)? = null
   ): MaterialDialog = apply {
     assertOneSet("message", text, res)
@@ -174,6 +177,8 @@ class MaterialDialog(
         dialog = this,
         res = res,
         text = text,
+        textColorRes = textColorRes,
+        textSizeRes = textSizeRes,
         typeface = this.bodyFont,
         applySettings = applySettings
     )

@@ -22,15 +22,14 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.DrawableRes
-import androidx.annotation.RestrictTo
+import androidx.annotation.*
 import androidx.annotation.RestrictTo.Scope
-import androidx.annotation.StringRes
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.callbacks.invokeAll
 import com.afollestad.materialdialogs.checkbox.getCheckBoxPrompt
 import com.afollestad.materialdialogs.customview.CUSTOM_VIEW_NO_VERTICAL_PADDING
 import com.afollestad.materialdialogs.utils.MDUtil.maybeSetTextColor
+import com.afollestad.materialdialogs.utils.MDUtil.maybeSetTextSize
 import com.afollestad.materialdialogs.utils.MDUtil.resolveDrawable
 import com.afollestad.materialdialogs.utils.MDUtil.resolveString
 
@@ -82,7 +81,10 @@ internal fun MaterialDialog.populateText(
   text: CharSequence? = null,
   @StringRes fallback: Int = 0,
   typeface: Typeface?,
-  textColor: Int? = null
+  textColor: Int? = null,
+  @ColorRes textColorRes: Int? = null,
+  textSize: Int? = null,
+  @DimenRes textSizeRes : Int? = null
 ) {
   val value = text ?: resolveString(this, textRes, fallback)
   if (value != null) {
@@ -92,7 +94,8 @@ internal fun MaterialDialog.populateText(
     if (typeface != null) {
       textView.typeface = typeface
     }
-    textView.maybeSetTextColor(windowContext, textColor)
+    textView.maybeSetTextColor(windowContext, textColor, textColorRes)
+    textView.maybeSetTextSize(windowContext, textSize, textSizeRes)
   } else {
     textView.visibility = View.GONE
   }
