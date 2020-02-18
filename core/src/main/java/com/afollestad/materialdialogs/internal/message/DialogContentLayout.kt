@@ -23,11 +23,8 @@ import android.view.View.MeasureSpec.*
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.annotation.ColorRes
-import androidx.annotation.LayoutRes
-import androidx.annotation.RestrictTo
+import androidx.annotation.*
 import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
-import androidx.annotation.StringRes
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -40,6 +37,7 @@ import com.afollestad.materialdialogs.internal.main.DialogScrollView
 import com.afollestad.materialdialogs.internal.main.DialogTitleLayout
 import com.afollestad.materialdialogs.message.DialogMessageSettings
 import com.afollestad.materialdialogs.utils.MDUtil.maybeSetTextColor
+import com.afollestad.materialdialogs.utils.MDUtil.maybeSetTextSize
 import com.afollestad.materialdialogs.utils.MDUtil.updatePadding
 import com.afollestad.materialdialogs.utils.inflate
 
@@ -75,6 +73,7 @@ class DialogContentLayout(
     text: CharSequence?,
     @ColorRes textColorRes : Int? = null,
     typeface: Typeface?,
+    @DimenRes textSizeRes: Int? = null,
     applySettings: (DialogMessageSettings.() -> Unit)?
   ) {
     addContentScrollView()
@@ -90,6 +89,7 @@ class DialogContentLayout(
     messageTextView?.run {
       typeface?.let { this.typeface = it }
       maybeSetTextColor(dialog.windowContext, attrRes = R.attr.md_color_content, colorRes = textColorRes)
+      maybeSetTextSize(dialog.windowContext, attrRes = R.attr.md_size_content, dimenRes = textSizeRes)
       messageSettings.setText(res, text)
     }
   }

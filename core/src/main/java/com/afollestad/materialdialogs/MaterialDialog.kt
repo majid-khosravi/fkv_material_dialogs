@@ -171,6 +171,7 @@ class MaterialDialog(
     @StringRes res: Int? = null,
     text: CharSequence? = null,
     @ColorRes textColorRes : Int? = null,
+    @DimenRes textSizeRes: Int? = null,
     applySettings: (DialogMessageSettings.() -> Unit)? = null
   ): MaterialDialog {
     assertOneSet("message", text, res)
@@ -179,6 +180,7 @@ class MaterialDialog(
         res = res,
         text = text,
         textColorRes = textColorRes,
+        textSizeRes = textSizeRes,
         typeface = this.bodyFont,
         applySettings = applySettings
     )
