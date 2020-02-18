@@ -20,6 +20,7 @@ package com.afollestad.materialdialogs.checkbox
 import android.view.View
 import android.widget.CheckBox
 import androidx.annotation.CheckResult
+import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.core.widget.CompoundButtonCompat
 import com.afollestad.materialdialogs.MaterialDialog
@@ -32,13 +33,15 @@ import com.afollestad.materialdialogs.utils.resolveColors
 
 typealias BooleanCallback = ((Boolean) -> Unit)?
 
-@CheckResult fun MaterialDialog.getCheckBoxPrompt(): CheckBox {
+@CheckResult
+fun MaterialDialog.getCheckBoxPrompt(): CheckBox {
   return view.buttonsLayout?.checkBoxPrompt ?: throw IllegalStateException(
       "The dialog does not have an attached buttons layout."
   )
 }
 
-@CheckResult fun MaterialDialog.isCheckPromptChecked() = getCheckBoxPrompt().isChecked
+@CheckResult
+fun MaterialDialog.isCheckPromptChecked() = getCheckBoxPrompt().isChecked
 
 /**
  * @param res The string resource to display for the checkbox label.
@@ -50,6 +53,7 @@ fun MaterialDialog.checkBoxPrompt(
   @StringRes res: Int = 0,
   text: String? = null,
   isCheckedDefault: Boolean = false,
+  @ColorRes textColorRes: Int? = null,
   onToggle: BooleanCallback
 ): MaterialDialog {
   assertOneSet("checkBoxPrompt", text, res)
@@ -60,7 +64,7 @@ fun MaterialDialog.checkBoxPrompt(
     this.setOnCheckedChangeListener { _, checked ->
       onToggle?.invoke(checked)
     }
-    maybeSetTextColor(windowContext, R.attr.md_color_content)
+    maybeSetTextColor(windowContext, colorRes = textColorRes, attrRes = R.attr.md_color_content)
     bodyFont?.let(this::setTypeface)
 
     val widgetAttrs = intArrayOf(R.attr.md_color_widget, R.attr.md_color_widget_unchecked)
