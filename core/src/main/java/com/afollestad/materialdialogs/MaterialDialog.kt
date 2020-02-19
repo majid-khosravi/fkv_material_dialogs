@@ -194,6 +194,7 @@ class MaterialDialog(
   fun positiveButton(
     @StringRes res: Int? = null,
     text: CharSequence? = null,
+    @ColorRes textColorRes: Int? = null,
     click: DialogCallback? = null
   ): MaterialDialog = apply {
     if (click != null) {
@@ -201,6 +202,7 @@ class MaterialDialog(
     }
 
     val btn = getActionButton(POSITIVE)
+    if(textColorRes != null) btn.updateTextColor(resolveColor(res = textColorRes))
     if (res == null && text == null && btn.isVisible()) {
       // Didn't receive text and the button is already setup,
       // so just stop with the added listener.
