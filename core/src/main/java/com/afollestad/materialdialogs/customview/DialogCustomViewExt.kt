@@ -35,6 +35,9 @@ internal const val CUSTOM_VIEW_NO_VERTICAL_PADDING = "md.custom_view_no_vertical
   )
 }
 
+@CheckResult fun MaterialDialog.isRtl(): Boolean{
+  return this.view.contentLayout.isRtl
+}
 /**
  * Sets a custom view to display in the dialog, below the title and above the action buttons
  * (and checkbox prompt).

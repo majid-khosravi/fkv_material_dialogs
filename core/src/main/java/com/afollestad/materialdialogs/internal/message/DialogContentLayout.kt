@@ -59,6 +59,7 @@ class DialogContentLayout(
   private var scrollFrame: ViewGroup? = null
   private var messageTextView: TextView? = null
   private var useHorizontalPadding: Boolean = false
+  var isRtl: Boolean = false
   private val frameHorizontalMargin: Int by lazy {
     resources.getDimensionPixelSize(R.dimen.md_dialog_frame_margin_horizontal)
   }

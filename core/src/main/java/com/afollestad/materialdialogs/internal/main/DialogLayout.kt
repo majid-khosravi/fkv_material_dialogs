@@ -98,6 +98,7 @@ class DialogLayout(
     isRtl = resolveLayoutDirection(dialog.context, attrs = attrs, attrArray =  R.styleable.DialogLayout)
     titleLayout.isRtl = isRtl
     buttonsLayout?.isRtl = isRtl
+    contentLayout.isRtl = isRtl
   }
 
   fun attachButtonsLayout(buttonsLayout: DialogActionButtonLayout) {

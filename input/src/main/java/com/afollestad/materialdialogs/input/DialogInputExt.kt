@@ -19,7 +19,10 @@ package com.afollestad.materialdialogs.input
 
 import android.annotation.SuppressLint
 import android.text.InputType
+import android.view.Gravity
+import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import androidx.annotation.CheckResult
 import androidx.annotation.StringRes
 import com.afollestad.materialdialogs.MaterialDialog
@@ -30,7 +33,9 @@ import com.afollestad.materialdialogs.callbacks.onPreShow
 import com.afollestad.materialdialogs.callbacks.onShow
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
+import com.afollestad.materialdialogs.customview.isRtl
 import com.afollestad.materialdialogs.utils.MDUtil.maybeSetTextColor
+import com.afollestad.materialdialogs.utils.MDUtil.resolveString
 import com.afollestad.materialdialogs.utils.MDUtil.textChanged
 import com.google.android.material.textfield.TextInputLayout
 
@@ -59,9 +64,16 @@ private fun MaterialDialog.lookupInputLayout(): TextInputLayout {
  * @throws IllegalStateException if the dialog is not an input dialog.
  */
 @CheckResult fun MaterialDialog.getInputField(): EditText {
-  return getInputLayout().editText ?: throw IllegalStateException(
+  val editText = getInputLayout().editText
+  editText?.gravity = if(isRtl()) Gravity.RIGHT else Gravity.LEFT
+  return  editText ?: throw IllegalStateException(
       "You have not setup this dialog as an input dialog."
   )
+}
+
+private fun MaterialDialog.getErrorField(): TextView {
+  return getCustomView().findViewById(R.id.md_input_error) as? TextView
+      ?: throw IllegalStateException("You have not setup this dialog as an input dialog.")
 }
 
 /**
@@ -130,6 +142,13 @@ fun MaterialDialog.input(
   }
 
   return this
+}
+
+fun MaterialDialog.setErrorMessage(error: String, res: Int? = null) {
+  val value = if (error.isNotEmpty()) error else resolveString(context = context, res = res)
+  getErrorField().text = value
+
+  getErrorField().visibility =  if(value.isNullOrEmpty()) View.GONE else View.VISIBLE
 }
 
 private fun MaterialDialog.prefillInput(
