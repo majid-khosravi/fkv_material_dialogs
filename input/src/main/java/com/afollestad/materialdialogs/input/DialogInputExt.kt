@@ -189,5 +189,8 @@ private fun MaterialDialog.styleInput(
   errorField.maybeSetTextColor(windowContext,
       attrRes = R.attr.md_color_error
   )
-  bodyFont?.let(editText::setTypeface)
+  bodyFont?.let {
+    editText.typeface = it
+    errorField.typeface = it
+  }
 }
