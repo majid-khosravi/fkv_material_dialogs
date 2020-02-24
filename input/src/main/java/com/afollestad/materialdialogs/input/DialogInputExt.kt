@@ -146,9 +146,9 @@ fun MaterialDialog.input(
 
 fun MaterialDialog.setErrorMessage(error: String, res: Int? = null) {
   val value = if (error.isNotEmpty()) error else resolveString(context = context, res = res)
-  getErrorField().text = value
-
-  getErrorField().visibility =  if(value.isNullOrEmpty()) View.GONE else View.VISIBLE
+  val errorField = getErrorField()
+  errorField.text = value
+  errorField.visibility =  if(value.isNullOrEmpty()) View.GONE else View.VISIBLE
 }
 
 private fun MaterialDialog.prefillInput(
