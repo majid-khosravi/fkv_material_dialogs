@@ -177,6 +177,7 @@ private fun MaterialDialog.styleInput(
 ) {
   val resources = windowContext.resources
   val editText = getInputField()
+  val errorField = getErrorField()
 
   editText.hint = hint ?: if (hintRes != null) resources.getString(hintRes) else null
   editText.inputType = inputType
@@ -184,6 +185,9 @@ private fun MaterialDialog.styleInput(
       windowContext,
       attrRes = R.attr.md_color_content,
       hintAttrRes = R.attr.md_color_hint
+  )
+  errorField.maybeSetTextColor(windowContext,
+      attrRes = R.attr.md_color_error
   )
   bodyFont?.let(editText::setTypeface)
 }
