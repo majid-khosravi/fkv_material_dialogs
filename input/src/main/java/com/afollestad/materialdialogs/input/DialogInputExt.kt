@@ -34,6 +34,7 @@ import com.afollestad.materialdialogs.callbacks.onShow
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.customview.isRtl
+import com.afollestad.materialdialogs.utils.MDUtil.maybeSetTextSize
 import com.afollestad.materialdialogs.utils.MDUtil.maybeSetTextColor
 import com.afollestad.materialdialogs.utils.MDUtil.resolveString
 import com.afollestad.materialdialogs.utils.MDUtil.textChanged
@@ -189,6 +190,7 @@ private fun MaterialDialog.styleInput(
   errorField.maybeSetTextColor(windowContext,
       attrRes = R.attr.md_color_error
   )
+  errorField.maybeSetTextSize(windowContext, attrRes = R.attr.md_size_error, dimenRes = null)
   bodyFont?.let {
     editText.typeface = it
     errorField.typeface = it
