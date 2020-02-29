@@ -18,12 +18,14 @@
 package com.afollestad.materialdialogs.input
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.text.InputType
 import android.view.Gravity
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.CheckResult
+import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.WhichButton.POSITIVE
@@ -34,8 +36,9 @@ import com.afollestad.materialdialogs.callbacks.onShow
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.customview.isRtl
-import com.afollestad.materialdialogs.utils.MDUtil.maybeSetTextSize
 import com.afollestad.materialdialogs.utils.MDUtil.maybeSetTextColor
+import com.afollestad.materialdialogs.utils.MDUtil.maybeSetTextSize
+import com.afollestad.materialdialogs.utils.MDUtil.resolveColor
 import com.afollestad.materialdialogs.utils.MDUtil.resolveString
 import com.afollestad.materialdialogs.utils.MDUtil.textChanged
 import com.google.android.material.textfield.TextInputLayout
@@ -145,11 +148,22 @@ fun MaterialDialog.input(
   return this
 }
 
-fun MaterialDialog.setErrorMessage(error: String, res: Int? = null) {
+fun MaterialDialog.setErrorMessage(error: String, res: Int? = null, @ColorRes colorRes : Int? = null) {
   val value = if (error.isNotEmpty()) error else resolveString(context = context, res = res)
   val errorField = getErrorField()
   errorField.text = value
   errorField.visibility =  if(value.isNullOrEmpty()) View.GONE else View.VISIBLE
+  errorField.setTextColor(
+      when (colorRes) {
+        null -> Color.RED
+        else -> resolveColor(context = windowContext, res = colorRes)
+      })
+
+  getInputLayout().boxStrokeColor =
+      when {
+        error.isNotEmpty() -> Color.RED
+        else -> resolveColor(context = windowContext, attr = R.attr.colorPrimary)
+      }
 }
 
 private fun MaterialDialog.prefillInput(

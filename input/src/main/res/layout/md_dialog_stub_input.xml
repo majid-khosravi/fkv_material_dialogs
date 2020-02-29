@@ -23,6 +23,7 @@
             android:id="@+id/md_input_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/md_action_button_padding_vertical"
             android:paddingStart="@dimen/md_listitem_vertical_margin"
             android:paddingLeft="@dimen/md_listitem_vertical_margin"
             tools:text="Error message" />
