@@ -174,7 +174,7 @@ private fun MaterialDialog.prefillInput(
   val resources = windowContext.resources
   val editText = getInputField()
 
-  val prefillText = prefill ?: if (prefillRes != null) resources.getString(prefillRes) else ""
+  val prefillText = prefill ?: if (prefillRes != null) resources.getString(prefillRes) else " "
   if (prefillText.isNotEmpty()) {
     editText.setText(prefillText)
     onShow { editText.setSelection(prefillText.length) }
